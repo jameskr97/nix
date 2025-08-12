@@ -3,11 +3,8 @@
   users = {
     james = {
       username = "james";
-      email = "your-email@example.com";  # Update this
-      shell = "zsh";
-      sshKeys = [
-        # Add your SSH keys here
-      ];
+      email = "james@jameskr.dev";  # Update this
+      sshKeys = [];
     };
     
     root = {

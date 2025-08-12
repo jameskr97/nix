@@ -1,16 +1,12 @@
 # macOS configuration for m3max
+let 
+  meta = import ../metadata.nix;
+in
 { pkgs, ... }: {
 
-  environment.systemPackages = [
-    pkgs.vim
-    pkgs.vscodium
-    pkgs.wezterm
-    pkgs.lazygit
-  ];
-  
-  fonts.packages = [
-    pkgs.mplus-outline-fonts.githubRelease
-  ];
+  environment.systemPackages = with pkgs; meta.packages.common;
+  fonts.packages = with pkgs; meta.fonts;
+
 
   system.primaryUser = "james";
   system.defaults = {
