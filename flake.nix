@@ -8,7 +8,7 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # server deployment
+    # server depclaloyment
     colmena.url = "github:zhaofengli/colmena";
     colmena.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -18,8 +18,6 @@
     homebrew-core.flake = false;
     homebrew-cask.url = "github:homebrew/homebrew-cask";
     homebrew-cask.flake = false;
-    mac-app-util.url = "github:hraban/mac-app-util";
-    mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{
@@ -27,21 +25,16 @@
     colmena,
     nix-darwin,
     home-manager,
-    mac-app-util,
     nix-homebrew,
     homebrew-core,
     homebrew-cask,
     ... }:
     let
       pkgs = import nixpkgs { system = "aarch64-darwin"; config.allowUnfree = true; };
-      meta = import ./metadata.nix { inherit pkgs; };
+      meta = import ./modules/metadata.nix { inherit pkgs; };
       mkServer = name: serverConfig: {
         imports = serverConfig.modules ++ [home-manager.nixosModules.home-manager];
-        
-        # Set hostname from metadata
         networking.hostName = serverConfig.hostname;
-        
-        # Deployment configuration
         deployment.targetHost = serverConfig.ip;
         deployment.targetUser = "root";
         deployment.buildOnTarget = true;
@@ -53,9 +46,15 @@
           ./modules/darwin.homebrew.nix
           nix-homebrew.darwinModules.nix-homebrew
         ];
-        
-        users.users.james.name = "james";
-        users.users.james.home = "/Users/james";
+          environment.systemPackages = [ pkgs.chezmoi ];
+          environment.variables.CHEZMOI_SOURCE_DIR = "$HOME/.config/nix/dotfiles";
+
+          programs.fish.enable = true;
+          users.knownUsers = ["james"];
+          users.users.james.name = "james";
+          users.users.james.home = "/Users/james";
+          users.users.james.uid = 501;
+          users.users.james.shell = pkgs.fish;
       };
     in
   {
@@ -67,7 +66,6 @@
     # Darwin system
     darwinConfigurations."m3max" = nix-darwin.lib.darwinSystem {
       modules = [ 
-        mac-app-util.darwinModules.default
         darwinConfig
       ];
       specialArgs = { inherit meta homebrew-core homebrew-cask; };

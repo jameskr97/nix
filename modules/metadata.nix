@@ -31,15 +31,16 @@
   packages = {
     # Common CLI tools across all systems
     common = [
+      # Essentials
       pkgs.vim
+      pkgs.fish
+      pkgs.chezmoi
 
       # Development
       pkgs.git
+      pkgs.git-lfs
       pkgs.lazygit
       pkgs.lazydocker
-
-      pkgs.nodejs
-      pkgs.chezmoi
     ];
 
     # Desktop GUI applications
@@ -49,15 +50,12 @@
         "ghostty"
         "transmit"
         "jetbrains-toolbox"
+        "raycast"
 
         # Research
         "anki"
         "rstudio"
         "transmit"
-
-        # Social
-        "discord"
-        "element"
         "zotero"
 
         # Rogue Aeomeba
@@ -66,18 +64,25 @@
         "loopback"
         "piezo"
 
+        # Social + Media
+        "discord"
+        "element"
+        "telegram"
+        "whatsapp"
+
         # Misc
         "claude"
         "utm"
         "orbstack"
         "steam"
+
       ];
     };
   };
 
   # Fonts
   fonts = [
-    pkgs.mplus-outline-fonts.githubRelease
+    pkgs.nerd-fonts."m+"
     pkgs.jetbrains-mono
   ];
 }

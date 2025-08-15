@@ -13,7 +13,6 @@
     enable = true;
     onActivation.cleanup = "uninstall";
     caskArgs.appdir = "/Applications/Homebrew Apps";
-    brews = ["nodejs"];
     casks = meta.packages.gui.casks;
   };
 
