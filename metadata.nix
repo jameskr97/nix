@@ -1,9 +1,9 @@
-{
+{ pkgs, ...}: {
   # Users configuration
   users = {
     james = {
       username = "james";
-      email = "james@jameskr.dev";  # Update this
+      email = "james@jameskr.dev";
       sshKeys = [];
     };
     
@@ -31,21 +31,53 @@
   packages = {
     # Common CLI tools across all systems
     common = [
-      vim
-      git
+      pkgs.vim
+
+      # Development
+      pkgs.git
+      pkgs.lazygit
+      pkgs.lazydocker
+
+      pkgs.nodejs
+      pkgs.chezmoi
     ];
 
     # Desktop GUI applications
     gui = {
-      common = [];
-      darwin = [];
-      linux = [];
+      casks = [
+        # Essentials
+        "ghostty"
+        "transmit"
+        "jetbrains-toolbox"
+
+        # Research
+        "anki"
+        "rstudio"
+        "transmit"
+
+        # Social
+        "discord"
+        "element"
+        "zotero"
+
+        # Rogue Aeomeba
+        "soundsource"
+        "audio-hijack"
+        "loopback"
+        "piezo"
+
+        # Misc
+        "claude"
+        "utm"
+        "orbstack"
+        "steam"
+      ];
     };
   };
 
   # Fonts
   fonts = [
-    "mplus-outline-fonts.githubRelease"
-    "jetbrains-mono"
+    pkgs.mplus-outline-fonts.githubRelease
+    pkgs.jetbrains-mono
   ];
 }
